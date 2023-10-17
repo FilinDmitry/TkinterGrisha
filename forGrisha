@@ -1,0 +1,73 @@
+import tkinter as tk
+from tkinter import messagebox
+
+#объяснять всё максимально подробно и точно описывать синтаксис
+# Создаем главное окно
+root = tk.Tk()
+root.title("Поле для заметок") #название окна
+root.configure(bg='black')
+root.geometry('800x500')
+
+# Список для хранения заметок
+notes = []
+#рассказать что такое список
+
+# Функция для добавления новой заметки
+def add_note():
+    note = entry.get() # получение строки ввода
+    if note: # остерегает нас от добавления пустой строки
+        notes.append(note) # добавление в список
+        listbox.insert(tk.END, note) # добавление в
+        entry.delete(0, tk.END) # очистка поля для ввода
+
+
+# Функция для удаления выбранной заметки
+#Ввести понятие индекса
+def delete_note():
+    selected_index = listbox.curselection() # возвращение индекса
+    if selected_index: #предостерегает от ошибки при удалении
+        index = selected_index[0] #
+        listbox.delete(index) #удаление из окна
+        notes.pop(index) #удаление по индексу из списка
+
+
+# Функция для редактирования выбранной заметки
+def edit_note():
+    selected_index = listbox.curselection() #возвращение индекса
+    if selected_index: #предостерегает от ошибки при замене
+        index = selected_index[0] #
+        edited_note = entry.get() #получения индекса вы
+        if edited_note: # защита от пустого поля
+            listbox.delete(index) # удаление заметки по индексу
+            listbox.insert(index, edited_note) # вставка нового текста по индексу
+            notes[index] = edited_note # замена в списке по индексу
+            entry.delete(0, tk.END) # очитска строки ввода
+
+
+def delete_all():
+    listbox.delete(0, tk.END) #очистка из окна
+    notes.clear() #очитска списка
+
+
+# Создаем и размещаем виджеты на главном окне
+entry = tk.Entry(root, width=80, bg='grey24', fg= 'white') #создание строки ввода
+entry.pack(pady=10) #добавление строки ввода
+
+add_button = tk.Button(root, text="Добавить заметку", command=add_note, bg='grey5', fg= 'white') #свойства кнопки и функции
+add_button.pack() #добавление кнопки
+
+edit_button = tk.Button(root, text="Редактировать заметку", command=edit_note, bg='grey5', fg= 'white') #свойства кнопки и функции
+edit_button.pack() #добавление кнопки
+
+delete_button = tk.Button(root, text="Удалить заметку", command=delete_note, bg='grey5', fg= 'white') #свойства кнопки и функции
+delete_button.pack() #добавление кнопки
+
+delete_all_button = tk.Button(root, text="Удалить все заметки", command=delete_all, bg='grey5', fg= 'white') #свойства кнопки и функции
+delete_all_button.pack() #добавление кнопки
+
+listbox = tk.Listbox(root, width=80, height=200, bg='grey24', fg= 'white') # создание поля с заместками
+listbox.pack() # добавления заметок в окно
+
+
+# Запускаем цикл обработки событий
+root.mainloop()
